@@ -12,16 +12,16 @@ exports.getgroupmembers = (req,res,next)=>{
     const groupid = req.params.id
     console.log("Inside controller get groupmembers")
     GroupUser.findAll({where:{groupid:groupid}
-    //   , include: [
-    //   {
-    //     model: User,
-    //     required: false,
-    //   },
-    // ]
+      , include: [
+      {
+        model: User,
+        required: true,
+      },
+    ]
   })
     .then(response=>{
 
-      console.log("Inside response",response)
+      //console.log("Inside response",response)
       res.status(200).json({data:response,success:true,myuser:req.user})
     })
     .catch(err=>res.status(500).json({message:'Something went wrong'}))
@@ -30,37 +30,6 @@ exports.getgroupmembers = (req,res,next)=>{
 
 
 
-
-
-
-
-
-
-exports.makeAdmin = (req, res, next) => {
-  const groupid = req.params.id;
-  const userId = req.body.userid; 
-  GroupUser
-    .update({ isadmin: true }, { where: { userId: userId, groupId: groupid } })
-    .then((response) => {
-      res.status(200).json({ message: "Successfull", success: true });
-    })
-    .catch((err) => {
-      res.status(500).json({ message: "Something Went wrong", success: false });
-    });
-};
-
-exports.removeAdmin = (req,res,next)=>{
-  const groupid = req.params.id;
-  const userId = req.body.userid;
-  GroupUser
-    .update({ isadmin: false }, { where: { userId: userId, groupId: groupid } })
-    .then((response) => {
-      res.status(200).json({ message: "Successfull", success: true });
-    })
-    .catch((err) => {
-      res.status(500).json({ message: "Something Went wrong", success: false });
-    });
-}
 
 
 
@@ -89,13 +58,16 @@ exports.postchat = (req, res, next) => {
   }
 };
 
+
+
+
 exports.getchat = (req, res, next) => {
   let groupid = req.params.id
   Message.findAll({where:{groupId:groupid},
     include: [
       {
         model: User,
-        required: false,
+        required: true,
       },
     ],
     

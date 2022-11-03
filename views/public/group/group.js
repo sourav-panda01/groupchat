@@ -47,6 +47,7 @@ creategroup.addEventListener('click',(e)=>{
     .then((response) => {
       if (response.status == 201) {
         console.log(response);
+        showgroup()
         alert(response.data.message);
       } else {
         throw new Error();
@@ -70,5 +71,5 @@ creategroup.addEventListener('click',(e)=>{
 var logoutbtn=document.getElementById('logout');
 logoutbtn.addEventListener('click',()=>{
   localStorage.removeItem("token")
-  window.location.href="http://127.0.0.1:5500/project/chat-app/views/login.html"
+  window.location.href="http://127.0.0.1:5500/chatapplication/views/public/user/login.html"
 })

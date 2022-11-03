@@ -1,33 +1,41 @@
 const User = require("../models/user");
-const groupuser = require("../models/user-group");
+const groupuser = require("../models/groupuser");
+
 
 
 
 
 exports.addUser = (req, res, next) => {
+  console.log("Inside add user controller")
   const groupid = req.params.id;
-  const name = req.body.name;
+  //const name = req.body.name;
   const userId = req.body.userid
-  if (name == undefined || name.length == 0) {
-    return res.status(400).json({ message: "Paramaters missing" });
-  }
-  User.findOne({ where: { name: name } })
+  console.log("Inside controller add user",userId)
+  // if (name == undefined || name.length == 0) {
+  //   return res.status(400).json({ message: "Paramaters missing" });
+  // }
+  User.findOne({ where: { id: userId } })
    .then((user) => {
-    
-    console.log("hey hey hey hey hey hey",user)
+    console.log("user Found",user)
     groupuser.create({
         isadmin: false,
         userId: user.id,
         groupId: groupid,
       });
-
+      console.log("succesfully added user")
       res.status(201).json({ message: "User added to group", success: true });
     })
-
     .catch((err) =>
       res.status(500).json({ message: "Something went wrong", success: false })
     );
 };
+
+
+
+
+
+
+
 
 exports.removeUser = (req, res, next) => {
   const groupid = req.params.id;
@@ -42,9 +50,24 @@ exports.removeUser = (req, res, next) => {
     });
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 exports.makeAdmin = (req, res, next) => {
   const groupid = req.params.id;
   const userId = req.body.userid;
+  console.log(groupid,userId,"Inside make admin")
   groupuser
     .update({ isadmin: true }, { where: { userId: userId, groupId: groupid } })
     .then((response) => {
@@ -54,7 +77,6 @@ exports.makeAdmin = (req, res, next) => {
       res.status(500).json({ message: "Something Went wrong", success: false });
     });
 };
-
 exports.removeAdmin = (req,res,next)=>{
   const groupid = req.params.id;
   const userId = req.body.userid;

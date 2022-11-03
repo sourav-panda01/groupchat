@@ -22,7 +22,7 @@ const Groupuser = require("./models/groupuser");
 
 //Routes
 const userRoutes = require('./routes/user');
-//const messageRoutes = require('./routes/message');
+const adminRoutes = require('./routes/admin');
 const groupRoutes = require("./routes/group");
 const groupuserRoute = require('./routes/groupuser')
 
@@ -31,9 +31,10 @@ const groupuserRoute = require('./routes/groupuser')
 
 
 app.use(userRoutes)
-//app.use(messageRoutes)
+app.use(adminRoutes)
 app.use(groupRoutes)
 app.use(groupuserRoute)
+app.use(adminRoutes)
 app.use(errorController.get404);
 
 

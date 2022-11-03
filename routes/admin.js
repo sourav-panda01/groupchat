@@ -3,13 +3,15 @@ const Express = require('express')
 const router = Express.Router()
 
 const adminController = require('../controllers/admin')
+const authenticator = require('../middleware/authenticator')
 
-router.post('/adduser/:id',adminController.addUser)
 
-router.post('/removeuser/:id',adminController.removeUser)
+router.post('/adduser/:id',authenticator.authenticator,adminController.addUser)
 
-router.post('/makeadmin/:id',adminController.makeAdmin)
+router.post('/removeuser/:id',authenticator.authenticator,adminController.removeUser)
 
-router.post('/removeadmin/:id',adminController.removeAdmin)
+router.post('/makeadmin/:id',authenticator.authenticator,adminController.makeAdmin)
+
+router.post('/removeadmin/:id',authenticator.authenticator,adminController.removeAdmin)
 
 module.exports = router
